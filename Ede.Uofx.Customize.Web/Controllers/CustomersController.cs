@@ -11,6 +11,16 @@ namespace Ede.Uofx.Customize.Web.Controllers
     [Route("/api/[controller]")]
     public class CustomersController : ControllerBase
     {
+
+        [HttpPost("CreateTestData")]
+        public string CreateTestData(CustIinfo info)
+        {
+            //{"address":"復興四路2號4樓A17 一等一科技","phoneNumber":"0912058414","companyName":"等一私"}
+
+
+            return "";
+        }
+
         [HttpGet("CheckedPrice")]
         public string CheckedPrice(string? price)
         {
@@ -150,4 +160,14 @@ namespace Ede.Uofx.Customize.Web.Controllers
 
 
     }
+
+
+    public class CustIinfo
+    {
+        public string address { get; set; }
+        public string phoneNumber { get; set; }
+        public string companyName { get; set; }
+
+       // {"address":"復興四路2號4樓A17 一等一科技","phoneNumber":"0912058414","companyName":"等一私"}
+}
 }

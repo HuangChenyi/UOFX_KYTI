@@ -8,15 +8,24 @@
       <th>Company Name</th>
       <th>Address</th>
       <th>Phone</th>
+      <th>category</th>
     </tr>
     <tr >
       <td><input formControlName="companyName" type="text"></td>
       <td><input formControlName="address" type="text"></td>
       <td><input formControlName="phone" type="text"></td>
+      <td><p-dropdown
+        [showClear]="true" [options]="items" formControlName="category"
+        [placeholder]="'global.comm.select.default-placeholder' | translate"
+        optionLabel="categoryName" optionValue="categoryID" styleClass="width-100"
+        ></p-dropdown></td>
     </tr>
   </table>
-
-
+<button
+   class="e-btn u-btn-primary buttons-opposite"
+    data-ripple="true"
+   (click)="Open()">開窗
+ </button>
 </div>
 
 

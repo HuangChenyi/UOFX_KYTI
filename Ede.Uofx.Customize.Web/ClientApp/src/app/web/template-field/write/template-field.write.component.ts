@@ -17,7 +17,11 @@ import {
 import { BpmFwWriteComponent, UofxFormTools } from '@uofx/web-components/form';
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 
+import { SelectdataComponent } from '../selectdata/selectdata.component';
 import { TemplateFieldExProps } from '../props/template-field.props.component';
+import { UofxDialogController } from '@uofx/web-components/dialog';
+import { categorys } from 'src/app/model/UtilityModel';
+import { kjtiService } from '@service/kjti-service';
 
 /*修改*/
 /*↑↑↑↑修改import 各模式的Component↑↑↑↑*/
@@ -40,11 +44,17 @@ export class TemplateFieldWriteComponent
   /*置換className*/
   @Input() exProps: TemplateFieldExProps;
 @Input() value: custInfo;
+
+items: Array<categorys> = [];
+
+
   form: UntypedFormGroup;
   constructor(
     private cdr: ChangeDetectorRef,
     private fb: UntypedFormBuilder,
-    private tools: UofxFormTools
+    private tools: UofxFormTools,
+    private ks:kjtiService,
+    private dialogCtrl: UofxDialogController
   ) {
     super();
   }
@@ -74,11 +84,35 @@ export class TemplateFieldWriteComponent
     this.cdr.detectChanges();
   }
 
+  Open()
+  {
+    this.dialogCtrl.createFullScreen({
+      component: SelectdataComponent,
+      params: {
+         /*開窗要帶的參數*/
+      }
+    }).afterClose.subscribe({
+      next: res => {
+      /*關閉視窗後處理的訂閱事件*/
+      if (res) {  }
+    }
+    });
+  }
+
   initForm() {
+
+    this.ks.serverUrl=this.pluginSetting.entryHost;
+    this.ks.getCategorys().subscribe((res)=>{
+      console.log(res);
+
+      this.items=res;
+    });
+
     this.form = this.fb.group({
       companyName: [this.value?.companyName || '', Validators.required],
       address: [this.value?.address || '', Validators.required],
       phone: [this.value?.phone || '', Validators.required],
+      category:this.value?.category
     });
 
     if (this.selfControl) {
@@ -109,4 +143,6 @@ export interface custInfo {
   companyName: string;
   address: string;
   phone: string;
+  category:string;
 }
+
