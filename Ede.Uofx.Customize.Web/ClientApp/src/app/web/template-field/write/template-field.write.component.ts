@@ -39,7 +39,7 @@ export class TemplateFieldWriteComponent
   /*修改*/
   /*置換className*/
   @Input() exProps: TemplateFieldExProps;
-
+@Input() value: custInfo;
   form: UntypedFormGroup;
   constructor(
     private cdr: ChangeDetectorRef,
@@ -76,7 +76,9 @@ export class TemplateFieldWriteComponent
 
   initForm() {
     this.form = this.fb.group({
-      message: [this.value?.message || '', Validators.required], // Add required validation
+      companyName: [this.value?.companyName || '', Validators.required],
+      address: [this.value?.address || '', Validators.required],
+      phone: [this.value?.phone || '', Validators.required],
     });
 
     if (this.selfControl) {
@@ -101,4 +103,10 @@ function validateSelf(form: UntypedFormGroup): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     return form.valid ? null : { formInvalid: true };
   };
+}
+
+export interface custInfo {
+  companyName: string;
+  address: string;
+  phone: string;
 }
