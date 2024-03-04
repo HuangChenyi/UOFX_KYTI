@@ -16,10 +16,9 @@ import {
 } from '@angular/forms';
 import { BpmFwWriteComponent, UofxFormTools } from '@uofx/web-components/form';
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
-import { categorys, customer } from 'src/app/model/UtilityModel';
+import { categorys, custInfo, products } from 'src/app/model/UtilityModel';
 
-import { SelectdataComponent } from '../selectdata/selectdata.component';
-import { TemplateFieldExProps } from '../props/template-field.props.component';
+import { DemoFieldExProps } from '../props/demo-field.props.component';
 import { UofxDialogController } from '@uofx/web-components/dialog';
 import { kjtiService } from '@service/kjti-service';
 
@@ -30,25 +29,23 @@ import { kjtiService } from '@service/kjti-service';
 /*置換selector和templateUrl*/
 @Component({
   selector: 'uofx-template-field-write-component',
-  templateUrl: './template-field.write.component.html',
-  styleUrls: ['./template-field.write.component.scss']
+  templateUrl: './demo-field.write.component.html',
 })
 
 /*修改*/
 /*置換className*/
-export class TemplateFieldWriteComponent
+export class DemoFieldWriteComponent
   extends BpmFwWriteComponent
   implements OnInit
 {
 
   /*修改*/
   /*置換className*/
-  @Input() exProps: TemplateFieldExProps;
-@Input() value: custInfo;
+  @Input() exProps: DemoFieldExProps;
+@Input() value: any;
 
-items: Array<categorys> = [];
-gridData:Array<customer>=[];
-selectedItems:Array<customer>=[];
+
+
   form: UntypedFormGroup;
   constructor(
     private cdr: ChangeDetectorRef,
@@ -88,45 +85,15 @@ selectedItems:Array<customer>=[];
   Open()
   {
 
-    this.gridData.push({companyName:"123",address:"456",phone:"789"});
-    this.gridData=[...this.gridData];
-    this.cdr.detectChanges();
-    return;
-    this.dialogCtrl.createFullScreen({
-      component: SelectdataComponent,
-      params: {
-         /*開窗要帶的參數*/
-      }
-    }).afterClose.subscribe({
-      next: res => {
-      /*關閉視窗後處理的訂閱事件*/
-      if (res) {  }
-    }
-    });
   }
+
+
 
   initForm() {
 
-    this.ks.serverUrl=this.pluginSetting.entryHost;
-    this.ks.getCategorys().subscribe((res)=>{
-
-
-      this.items=res;
-    });
-
-    this.ks.ceateformdata().subscribe((res)=>{
-      })
-
-    this.ks.getCustomers().subscribe((res)=>{
-      console.log(res);
-      this.gridData=res;
-    });
-
     this.form = this.fb.group({
       companyName: [this.value?.companyName || '', Validators.required],
-      address: [this.value?.address || '', Validators.required],
-      phone: [this.value?.phone || '', Validators.required],
-      category:this.value?.category
+
     });
 
     if (this.selfControl) {
@@ -153,10 +120,4 @@ function validateSelf(form: UntypedFormGroup): ValidatorFn {
   };
 }
 
-export interface custInfo {
-  companyName: string;
-  address: string;
-  phone: string;
-  category:string;
-}
 

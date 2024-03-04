@@ -7,5 +7,25 @@
       "exposedModule": "./TemplateField",
       "moduleName": "FieldHelloWorldAppModule"
     }
+  },
+  "demo-field": {
+    "exposedModule": "./DemoField",
+    "moduleName": "DemoFieldModule",
+    "app": {
+      "exposedModule": "./DemoField",
+      "moduleName": "FieldHelloWorldAppModule"
+    }
   }
+
+  ,
+  "lab-field": {
+    "exposedModule": "./LabField",
+    "moduleName": "LabFieldModule",
+    "app": {
+      "exposedModule": "./LabField",
+      "moduleName": "FieldHelloWorldAppModule"
+    }
+  }
+
+
 }

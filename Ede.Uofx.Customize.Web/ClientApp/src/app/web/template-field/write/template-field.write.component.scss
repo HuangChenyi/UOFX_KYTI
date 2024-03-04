@@ -1,0 +1,41 @@
+@import 'shared/colors';
+@import 'shared/fonts';
+@import 'shared/scrollbar';
+
+:host {
+  ::ng-deep {
+    .fw-grid-write {
+      .p-datatable-table {
+        table-layout: fixed;
+
+        .p-datatable-thead {
+          th {
+            background-color: #4669ac; // 預設特規色;
+            color: get-color(w-50);
+          }
+        }
+
+        .p-datatable-tfoot {
+          tr {
+            &:first-child td {
+              // 特殊色沒定義在guideline
+              background-color: #fff8e6;
+            }
+
+            &:last-child td {
+              // 特殊色沒定義在guideline
+              background-color: #f0faec;
+              border-top-width: 0 !important;
+            }
+          }
+        }
+      }
+
+      .p-paginator {
+        border: 1px solid get-color(gr-300);
+        border-top-width: 0;
+        border-radius: 0;
+      }
+    }
+  }
+}

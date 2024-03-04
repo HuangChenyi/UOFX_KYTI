@@ -55,6 +55,16 @@ const PRIMENG_MODULES = [];
         path: 'template-field',
         loadChildren: () => import('./web/template-field/template-field.module').then((m) => m.TemplateFieldModule)
       }
+      ,
+      {
+        path: 'demo-field',
+        loadChildren: () => import('./web/demo-field/demo-field.module').then((m) => m.DemoFieldModule)
+      }
+      ,
+      {
+        path: 'lab-field',
+        loadChildren: () => import('./web/lab-field/lab-field.module').then((m) => m.LabFieldModule)
+      }
     ]),
     ...I18NSERVICE_MODULES,
     ...PRIMENG_MODULES,
