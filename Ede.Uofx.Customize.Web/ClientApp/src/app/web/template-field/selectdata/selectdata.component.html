@@ -9,6 +9,22 @@
       <div class="padding-3x">
          <!-- Dialog 表身顯示處理 -->
          <!-- 通常是放明細內容或需編輯內容-->
+
+         <table [formGroup]="form">
+          <tr>
+            <td><strong>Company Name:</strong></td>
+            <td><input formControlName="companyName" type="text"></td>
+          </tr>
+          <tr>
+            <td><strong>Address:</strong></td>
+            <td><input formControlName="address" type="text"></td>
+          </tr>
+          <tr>
+            <td><strong>Phone:</strong></td>
+            <td><input formControlName="phone" type="text"></td>
+          </tr>
+         </table>
+
       </div>
     </uofx-dialog-body>
   </ng-template>
@@ -16,6 +32,11 @@
     <uofx-dialog-footer>
          <!-- Dialog 表尾顯示處理 -->
          <!-- 通常是放Button(EX:確定、關閉視窗.....) -->
+         <button
+            class="e-btn u-btn-primary buttons-opposite"
+             data-ripple="true"
+            (click)="Add()">確定
+          </button>
          <button
             class="e-btn u-btn-primary buttons-opposite"
              data-ripple="true"

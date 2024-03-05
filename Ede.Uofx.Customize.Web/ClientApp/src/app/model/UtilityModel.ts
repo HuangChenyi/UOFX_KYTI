@@ -4,6 +4,7 @@ export interface custInfo {
   phoneNumber: string;
   category:string;
   product:string;
+  gridData:Array<customer>;
 }
 
 export interface categorys {
@@ -27,4 +28,5 @@ export interface customer
   address: string;
   phone:string;
   companyName:string;
+  no:number
 }

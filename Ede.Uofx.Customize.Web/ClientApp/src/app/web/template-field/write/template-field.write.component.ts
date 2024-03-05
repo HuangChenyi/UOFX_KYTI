@@ -38,23 +38,22 @@ import { kjtiService } from '@service/kjti-service';
 /*置換className*/
 export class TemplateFieldWriteComponent
   extends BpmFwWriteComponent
-  implements OnInit
-{
+  implements OnInit {
 
   /*修改*/
   /*置換className*/
   @Input() exProps: TemplateFieldExProps;
-@Input() value: custInfo;
+  @Input() value: custInfo;
 
-items: Array<categorys> = [];
-gridData:Array<customer>=[];
-selectedItems:Array<customer>=[];
+  items: Array<categorys> = [];
+  gridData: Array<customer> = [];
+  selectedItems :Array<any>= [];
   form: UntypedFormGroup;
   constructor(
     private cdr: ChangeDetectorRef,
     private fb: UntypedFormBuilder,
     private tools: UofxFormTools,
-    private ks:kjtiService,
+    private ks: kjtiService,
     private dialogCtrl: UofxDialogController
   ) {
     super();
@@ -80,54 +79,90 @@ selectedItems:Array<customer>=[];
     this.form.valueChanges.subscribe((res) => {
       this.selfControl?.setValue(res);
       /*真正送出欄位值變更的函式*/
+      console.log("res");
+      console.log(res);
       this.valueChanges.emit(res);
+
     });
     this.cdr.detectChanges();
   }
 
-  Open()
-  {
+  deleteSelectedItem() {
+    // this.selectedItem為勾選項目清單 請宣告全域變數.selectedItem=[]
+    // this.gridData 請宣告全域變數.gridData:Array<any>=[]
 
-    this.gridData.push({companyName:"123",address:"456",phone:"789"});
-    this.gridData=[...this.gridData];
-    this.cdr.detectChanges();
-    return;
+
+
+    this.gridData = this.gridData.filter(item => !this.selectedItems.includes(item));
+    this.gridData.map((p, index) => {
+      p.no = index + 1;
+    });
+    this.selectedItems = [];
+
+    this.form.patchValue({ gridData: [...this.gridData] });
+
+
+  }
+
+  Load() {
+
+    // this.ks.getCustomers().subscribe((res)=>{
+    //   console.log(res);
+    //   this.gridData=res;
+    // });
+
+    // return;
     this.dialogCtrl.createFullScreen({
       component: SelectdataComponent,
       params: {
-         /*開窗要帶的參數*/
+        /*開窗要帶的參數*/
       }
     }).afterClose.subscribe({
       next: res => {
-      /*關閉視窗後處理的訂閱事件*/
-      if (res) {  }
-    }
+        /*關閉視窗後處理的訂閱事件*/
+        if (res) {
+
+          this.gridData.push(res);
+          this.gridData.map((p, index) => {
+            p.no = index + 1;
+          });
+          this.gridData = [...this.gridData];
+          console.log("gridData");
+            console.log(this.gridData);
+
+        this.form.patchValue({ gridData: [...this.gridData] });
+        console.log("formvalue");
+        console.log(this.form.value);
+
+        }
+      }
     });
   }
 
   initForm() {
 
-    this.ks.serverUrl=this.pluginSetting.entryHost;
-    this.ks.getCategorys().subscribe((res)=>{
+    this.ks.serverUrl = this.pluginSetting.entryHost;
+    this.ks.getCategorys().subscribe((res) => {
 
 
-      this.items=res;
+
+      this.items = res;
     });
 
-    this.ks.ceateformdata().subscribe((res)=>{
-      })
 
-    this.ks.getCustomers().subscribe((res)=>{
-      console.log(res);
-      this.gridData=res;
-    });
+
+
 
     this.form = this.fb.group({
       companyName: [this.value?.companyName || '', Validators.required],
       address: [this.value?.address || '', Validators.required],
       phone: [this.value?.phone || '', Validators.required],
-      category:this.value?.category
+      category: this.value?.category,
+      gridData: this.value?.gridData || []
     });
+
+
+    this.gridData=this.value?.gridData;
 
     if (this.selfControl) {
       // 在此便可設定自己的驗證器
@@ -157,6 +192,7 @@ export interface custInfo {
   companyName: string;
   address: string;
   phone: string;
-  category:string;
+  category: string;
+  gridData: Array<customer>;
 }
 
