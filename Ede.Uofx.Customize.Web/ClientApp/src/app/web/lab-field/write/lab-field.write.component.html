@@ -3,17 +3,30 @@
   </uofx-form-field-name>
 </div>
 <div class="fw-control">
-  <table [formGroup]="form">
-    <tr>
-      <td>
-        <label for="companyName">Company Name</label>
-      </td>
-      <td>
-        <input id="companyName" formControlName="companyName" type="text">
-      </td>
+  <form [formGroup]="form">
 
-    </tr>
-  </table>
+
+
+    <div formArrayName="custData">
+      <div *ngFor="let item of custData.controls; let i = index" [formGroupName]="i">
+        <input formControlName="companyName">
+        <input formControlName="address">
+        <input formControlName="phone">
+        <button
+        class="e-btn u-btn-primary buttons-opposite"
+         data-ripple="true"
+        (click)="deleteRow(i)">刪除
+      </button>
+      </div>
+    </div>
+
+    <button
+       class="e-btn u-btn-primary buttons-opposite"
+        data-ripple="true"
+       (click)="addRow()">新增一列
+     </button>
+
+  </form>
 
 </div>
 

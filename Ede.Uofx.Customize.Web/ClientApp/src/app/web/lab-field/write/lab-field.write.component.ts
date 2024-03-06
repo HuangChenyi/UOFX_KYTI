@@ -8,6 +8,7 @@
 
 import {
   AbstractControl,
+  FormArray,
   UntypedFormBuilder,
   UntypedFormGroup,
   ValidationErrors,
@@ -44,8 +45,7 @@ export class LabFieldWriteComponent
   @Input() exProps: LabFieldExProps;
 @Input() value: any;
 
-
-
+custData: FormArray;
   form: UntypedFormGroup;
   constructor(
     private cdr: ChangeDetectorRef,
@@ -78,6 +78,8 @@ export class LabFieldWriteComponent
       this.selfControl?.setValue(res);
       /*真正送出欄位值變更的函式*/
       this.valueChanges.emit(res);
+
+      console.log(res);
     });
     this.cdr.detectChanges();
   }
@@ -92,9 +94,26 @@ export class LabFieldWriteComponent
   initForm() {
 
     this.form = this.fb.group({
-      companyName: [this.value?.companyName || '', Validators.required],
-
+      custData: this.fb.array([])
     });
+
+
+    this.custData = this.form.get('custData') as FormArray;
+
+    this.value?.custData?.forEach((data: any) => {
+
+      this.custData.push(this.fb.group({
+        companyName: data.companyName,
+        address: data.address,
+        phone: data.phone
+      }));
+
+
+   });
+
+
+    // console.log(this.custData);
+    // this.custData.reset();
 
     if (this.selfControl) {
       // 在此便可設定自己的驗證器
@@ -110,6 +129,20 @@ export class LabFieldWriteComponent
       resolve(true);
     });
   }
+
+  addRow() {
+    this.custData.push(this.fb.group({
+      companyName: '',
+      address: '',
+      phone: ''
+    }));
+  }
+
+  deleteRow(index: number) {
+    this.custData.removeAt(index);
+  }
+
+
 }
 
 
