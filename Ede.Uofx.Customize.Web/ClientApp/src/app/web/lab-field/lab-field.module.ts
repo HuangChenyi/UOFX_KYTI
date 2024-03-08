@@ -20,6 +20,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { LabFieldPropsComponent } from './props/lab-field.props.component';
 import { LabFieldWriteComponent } from './write/lab-field.write.component';
 import { NgModule } from '@angular/core';
+import { RadioButtonModule } from 'primeng/radiobutton';
 import { RouterModule } from '@angular/router';
 import { TableModule } from 'primeng/table';
 import { TranslateModule } from '@ngx-translate/core';
@@ -46,7 +47,8 @@ const PRIMENG_MODULES = [
   CheckboxModule,
   CalendarModule,
   TableModule,DialogModule,InputNumberModule,
-  DropdownModule,ButtonModule
+  DropdownModule,ButtonModule,
+  RadioButtonModule
 ];
 
 const UOF_MODULES = [

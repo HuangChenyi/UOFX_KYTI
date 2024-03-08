@@ -5,7 +5,12 @@
 <div class="fw-control">
   <form [formGroup]="form">
 
-
+    <div *ngFor="let item of categorys">
+      <p-radioButton
+      [value]="item.categoryID"
+      formControlName="category"></p-radioButton>
+        <label [for]="item.categoryID" class="ml-2">{{ item.categoryName }}</label>
+    </div>
 
     <div formArrayName="custData">
       <div *ngFor="let item of custData.controls; let i = index" [formGroupName]="i">

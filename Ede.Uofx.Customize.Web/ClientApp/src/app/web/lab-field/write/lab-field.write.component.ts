@@ -44,7 +44,10 @@ export class LabFieldWriteComponent
   /*置換className*/
   @Input() exProps: LabFieldExProps;
 @Input() value: any;
+selected: string;
 
+
+categorys:categorys[]=[];
 custData: FormArray;
   form: UntypedFormGroup;
   constructor(
@@ -89,14 +92,24 @@ custData: FormArray;
 
   }
 
+  onInputModelChange(event) {
 
+    this.form.patchValue({
+      category: event.value
+    });
+  }
 
   initForm() {
 
     this.form = this.fb.group({
-      custData: this.fb.array([])
+      custData: this.fb.array([]),
+      category:this.value?.category||''
     });
 
+    this.ks.serverUrl=this.pluginSetting.entryHost;
+    this.ks.getCategorys().subscribe((res)=>{
+      this.categorys=[...res];
+    });
 
     this.custData = this.form.get('custData') as FormArray;
 
@@ -143,6 +156,11 @@ custData: FormArray;
   }
 
 
+}
+
+export interface LabFildInfo {
+  category:string;
+  custData: custInfo[];
 }
 
 
