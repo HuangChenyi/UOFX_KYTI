@@ -2,7 +2,8 @@
 using Ede.Uofx.Customize.Web.Service;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
-
+using Newtonsoft.Json;
+using System.Security.Principal;
 
 namespace Ede.Uofx.Customize.Web.Controllers
 {
@@ -12,13 +13,17 @@ namespace Ede.Uofx.Customize.Web.Controllers
     public class CustomersController : ControllerBase
     {
 
+
         [HttpPost("CreateTestData")]
         public string CreateTestData(CustIinfo info)
         {
             //{"address":"復興四路2號4樓A17 一等一科技","phoneNumber":"0912058414","companyName":"等一私"}
 
+            returnValue rv=new returnValue();
+            rv.mail = DateTime.Now.ToString("yyyyMMddHHmmss");
 
-            return "";
+            string str = JsonConvert.SerializeObject(rv);
+            return str;
         }
 
         [HttpGet("CheckedPrice")]
@@ -161,6 +166,11 @@ namespace Ede.Uofx.Customize.Web.Controllers
 
     }
 
+
+    public class returnValue
+    {
+        public string mail { get; set; }
+    }
 
     public class CustIinfo
     {

@@ -8,6 +8,7 @@
 
 import {
   AbstractControl,
+  FormArray,
   UntypedFormBuilder,
   UntypedFormGroup,
   ValidationErrors,
@@ -19,7 +20,9 @@ import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { categorys, custInfo, products } from 'src/app/model/UtilityModel';
 
 import { DemoFieldExProps } from '../props/demo-field.props.component';
+import { Settings } from '@uofx/core';
 import { UofxDialogController } from '@uofx/web-components/dialog';
+import { UofxUserSetItemType } from '@uofx/web-components/user-select';
 import { kjtiService } from '@service/kjti-service';
 
 /*修改*/
@@ -36,28 +39,37 @@ import { kjtiService } from '@service/kjti-service';
 /*置換className*/
 export class DemoFieldWriteComponent
   extends BpmFwWriteComponent
-  implements OnInit
-{
+  implements OnInit {
 
   /*修改*/
   /*置換className*/
   @Input() exProps: DemoFieldExProps;
-@Input() value: any;
-
-
+  @Input() value: any;
+  types: Array<UofxUserSetItemType> = [UofxUserSetItemType.DeptEmployee];
+  corpId = Settings.UserInfo.corpId;
 
   form: UntypedFormGroup;
   constructor(
     private cdr: ChangeDetectorRef,
     private fb: UntypedFormBuilder,
     private tools: UofxFormTools,
-    private ks:kjtiService,
+    private ks: kjtiService,
     private dialogCtrl: UofxDialogController
   ) {
     super();
   }
 
+  onInputModelChange() {
 
+    //this.valueChanges.emit(this._getEmitValue());
+  }
+
+  _getEmitValue() {
+   // return this.selfControl.value;
+  }
+
+
+  custData: FormArray;
 
   ngOnInit(): void {
 
@@ -77,39 +89,80 @@ export class DemoFieldWriteComponent
     this.form.valueChanges.subscribe((res) => {
       this.selfControl?.setValue(res);
       /*真正送出欄位值變更的函式*/
+      console.log(res);
       this.valueChanges.emit(res);
     });
     this.cdr.detectChanges();
   }
 
-  Open()
-  {
+  Open() {
 
   }
 
 
+  C005Value: string;
+  C009Value: string;
+
+  GetC005Value() {
+    this.getTargetFieldValue('C005').then(res => {
+      this.C005Value = res;
+    });
+  }
+
+  GetC009Value()
+  {
+    this.getTargetFieldValue('C009').then(res => {
+      this.C009Value = res;
+    });
+  }
 
   initForm() {
 
     this.form = this.fb.group({
+      sales: [this.value?.sales || '', Validators.required],
       companyName: [this.value?.companyName || '', Validators.required],
-
+      address: [this.value?.address || '', Validators.required],
+      phone: [this.value?.phone || '', [Validators.pattern(/^09\d{8}$/)]],
     });
 
-    if (this.selfControl) {
-      // 在此便可設定自己的驗證器
-      this.selfControl.setValidators(validateSelf(this.form));
-      this.selfControl.updateValueAndValidity();
+    // this.form = this.fb.group({
+    //   custData: this.fb.array([])
+    // });
+
+
+    // this.custData = this.form.get('custData') as FormArray;
+
+    // this.value?.custData?.forEach((data: any) => {
+
+    //   this.custData.push(this.fb.group({
+    //     companyName: data.companyName,
+    //     address: data.address,
+    //     phone: data.phone
+    //   }));
+    // });
+
+
+
+      if (this.selfControl) {
+        // 在此便可設定自己的驗證器
+        this.selfControl.setValidators(validateSelf(this.form));
+        this.selfControl.updateValueAndValidity();
+      }
     }
-  }
+
+
 
   /*判斷如果是儲存不用作驗證*/
-  checkBeforeSubmit(): Promise<boolean> {
-    return new Promise((resolve) => {
-      const value = this.form.value;
-      resolve(true);
-    });
-  }
+  checkBeforeSubmit(): Promise < boolean > {
+      return new Promise((resolve) => {
+        const value = this.form.value;
+        resolve(true);
+      });
+    }
+
+
+
+
 }
 
 
@@ -120,4 +173,11 @@ function validateSelf(form: UntypedFormGroup): ValidatorFn {
   };
 }
 
+
+export interface customerInfo {
+  companyName: string;
+  address: string;
+  phone: string;
+  sales:string;
+}
 

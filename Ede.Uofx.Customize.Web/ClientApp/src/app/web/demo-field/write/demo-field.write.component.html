@@ -4,17 +4,84 @@
 </div>
 <div class="fw-control">
   <table [formGroup]="form">
+
     <tr>
       <td>
-        <label for="companyName">Company Name</label>
+        <label>Company Name</label>
       </td>
       <td>
-        <input id="companyName" formControlName="companyName" type="text">
+        <ng-container *ngIf="editable; else readonlyInput">
+          <input type="text" formControlName="companyName" required>
+          <div *ngIf="form.get('companyName').invalid && (form.get('companyName').dirty || form.get('companyName').touched)">
+            <div style="color: red;" *ngIf="form.get('companyName').errors.required">Company Name is required.</div>
+          </div>
+        </ng-container>
+        <ng-template #readonlyInput>
+          <span>{{ form.get('companyName').value }}</span>
+        </ng-template>
       </td>
+    </tr>
+    <tr>
+      <td>
+        <label>Address</label>
+      </td>
+      <td>
+        <ng-container *ngIf="editable; else readonlyInput1">
+          <input type="text" formControlName="address" required>
+          <div *ngIf="form.get('address').invalid && (form.get('address').dirty || form.get('address').touched)">
+            <div style="color: red;" *ngIf="form.get('address').errors.required">Address is required.</div>
+          </div>
+        </ng-container>
+        <ng-template #readonlyInput1>
+          <span>{{ form.get('address').value }}</span>
+        </ng-template>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <label>Phone</label>
+      </td>
+      <td>
+        <ng-container *ngIf="editable; else readonlyInput2">
+          <input type="text" formControlName="phone" pattern="[0-9]{10}">
+          <div *ngIf="form.get('phone').invalid && (form.get('phone').dirty || form.get('phone').touched)">
+            <div style="color: red;" *ngIf="form.get('phone').errors.pattern">Invalid phone number format.</div>
+          </div>
+        </ng-container>
+        <ng-template #readonlyInput2>
+          <span>{{ form.get('phone').value }}</span>
+        </ng-template>
+      </td>
+    </tr>
+    <tr>
+      <td>
+<button
+   class="e-btn u-btn-primary buttons-opposite"
+    data-ripple="true"
+   (click)="GetC005Value()">GetC005Value
+ </button>
+      </td>
+      <td>
+        <uofx-user-select [types]="types" [corpId]="corpId" formControlName="sales"
+        (ngModelChange)="onInputModelChange()">
+      </uofx-user-select>
 
+{{C005Value}}
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <button
+        class="e-btn u-btn-primary buttons-opposite"
+         data-ripple="true"
+        (click)="GetC009Value()">GetC009Value
+      </button>
+      </td>
+      <td>
+        {{C009Value|json}}
+      </td>
     </tr>
   </table>
-
 </div>
 
 

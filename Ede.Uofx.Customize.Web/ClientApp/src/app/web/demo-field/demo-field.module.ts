@@ -8,6 +8,7 @@ import {
   UofxFormModule,
 } from '@uofx/web-components/form';
 import { UofxLoadingModule, UofxTranslateModule } from '@uofx/web-components';
+import { UofxUserSelectModule, UofxUserSetItemType } from '@uofx/web-components/user-select';
 
 import { BasicHttpClient } from '@service/basic-http-client';
 import { ButtonModule } from 'primeng/button';
@@ -29,7 +30,6 @@ import { UofxIconModule } from '@uofx/web-components/icon';
 import { UofxPluginApiService } from '@uofx/plugin-api';
 import { UofxTextareaModule } from '@uofx/web-components/textarea';
 import { UofxToastModule } from '@uofx/web-components/toast';
-import { UofxUserSelectModule } from '@uofx/web-components/user-select';
 import { kjtiService } from '@service/kjti-service';
 
 /*

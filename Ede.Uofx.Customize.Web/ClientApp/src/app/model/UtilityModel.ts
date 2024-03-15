@@ -29,4 +29,5 @@ export interface customer
   phone:string;
   companyName:string;
   no:number
+  id:string;
 }
